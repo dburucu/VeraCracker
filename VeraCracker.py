@@ -18,9 +18,9 @@ from datetime import datetime
 
 # Constants
 VeraWinPath = '"c:\\Program Files\\VeraCrypt\\"'
-VeraWinCMD = 'VeraCrypt.exe /v "%s" /q /p "%s" /s /l %s'
-VeraWinProcList = "query process"
-VeraWinProcName = "veracrypt.exe"
+VeraWinCMD = 'VeraCrypt.exe /v "%s" /q /p "%s" /s /l %s /k "%s"'
+VeraWinProcList = "tasklist"
+VeraWinProcName = "VeraCrypt.exe"
 VeraLinuxCMD = 'veracrypt %s -p %s --non-interactive'
 
 # Functions
@@ -57,7 +57,7 @@ def checkRequirements():
 
 
 def windowsCrack(p):
-  os.popen(VeraWinPath + VeraWinCMD%(args.v, p, args.m))
+  os.popen(VeraWinPath + VeraWinCMD%(args.v, p, args.m, args.k))
   while True:
     if isVeraRunning():
       time.sleep(0.1)
@@ -110,6 +110,7 @@ if __name__ == '__main__':
     parser.add_argument('-m', metavar='mountpoint', type=str, required=True, help='Mountpoint for the volume to be mounted')
   parser.add_argument('-d', action='store_true',                           help='Debug mode')
   parser.add_argument('-o', metavar='file',       type=str,                help='Output file for untried passwords on quit')
+  parser.add_argument('-k', metavar='keyfile',       type=str,                help='Keyfile')
   args = parser.parse_args()
 
   # Check script requirements
